@@ -1,0 +1,18 @@
+[project]
+name = "streamlit-naive-rag-docsage"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "streamlit",
+    "langchain",
+    "langchain-community",
+    "langchain-openai",
+    "langchain-chroma",
+    "bs4",
+    "python-environ",
+    "docx2txt",
+    "pypdf",
+    "unstructured",
+]

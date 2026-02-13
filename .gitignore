@@ -1,0 +1,6 @@
+.env
+.venv
+temp_files/
+__pycache__/
+persist/
+doc_sage.sqlite
