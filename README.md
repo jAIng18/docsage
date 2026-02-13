@@ -65,15 +65,25 @@ flowchart LR
 
 ## Setup Guide
 1. Clone the repo
-2. Create venv (optional)
+2. Install uv (if not installed)
+```shell
+# Windows
+irm https://astral.sh/uv/install.ps1 | iex
+
+# macOS/Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 3. Install Dependencies
 ```shell
-pip install -r requirements.txt
+uv sync
 ```
-4. Create an OpenAI API Key (must do)
+4. Create `.env` file with your OpenAI API Key
+```
+OPENAI_API_KEY=sk-your-api-key-here
+```
 5. Initialize the Database
 ```shell
-python create_relational_db.py
+uv run python create_relational_db.py
 ```
 6. Run the application
 ```shell
