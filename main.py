@@ -1,5 +1,4 @@
-def main():
-    print("Hello from streamlit-naive-rag-docsage!")
+from src.streamlit_app import main
 
 
 if __name__ == "__main__":

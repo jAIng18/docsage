@@ -1,6 +1,6 @@
 .env
-.venv
-temp_files/
+.venv/
 __pycache__/
-persist/
-doc_sage.sqlite
+data/temp_uploads/
+data/vector_store/
+data/sqlite/doc_sage.sqlite

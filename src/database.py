@@ -1,10 +1,48 @@
 import sqlite3
 
-# Connect to SQLite database
-def connect_db():
-    return sqlite3.connect("doc_sage.sqlite")
+from src.paths import SQLITE_DB_PATH, ensure_app_directories
 
-# CRUD Operations for 'chat' table
+
+SCHEMA_SQL = """
+CREATE TABLE IF NOT EXISTS chat (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS sources (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    source_text TEXT,
+    type TEXT DEFAULT 'document',
+    chat_id INTEGER,
+    FOREIGN KEY (chat_id) REFERENCES chat(id)
+);
+
+CREATE TABLE IF NOT EXISTS messages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    chat_id INTEGER NOT NULL,
+    sender TEXT NOT NULL,
+    content TEXT NOT NULL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(chat_id) REFERENCES chat(id)
+);
+"""
+
+
+def connect_db():
+    ensure_app_directories()
+    return sqlite3.connect(SQLITE_DB_PATH)
+
+
+def initialize_database():
+    with connect_db() as conn:
+        cursor = conn.cursor()
+        cursor.executescript(SCHEMA_SQL)
+        conn.commit()
+
+
 def create_chat(title):
     conn = connect_db()
     cursor = conn.cursor()
@@ -71,6 +109,7 @@ def read_source(source_id):
     conn.close()
     return result
 
+
 def update_source(source_id, new_name, new_source_text):
     conn = connect_db()
     cursor = conn.cursor()
@@ -105,7 +144,6 @@ def delete_source(source_id):
     conn.close()
 
 
-# CRUD Operations for 'messages' table
 def create_message(chat_id, sender, content):
     conn = connect_db()
     cursor = conn.cursor()
